@@ -24,8 +24,8 @@ Writing a master slave application is as simple as extenging Slave class, implem
 .. code:: python
 
     from mpi4py import MPI
-    from mpi.master_slave import Master, Slave
-    from mpi.work_queue import WorkQueue
+    from mpi_master_slave import Master, Slave
+    from mpi_master_slave import WorkQueue
     import time
 
     class MyApp(object):
