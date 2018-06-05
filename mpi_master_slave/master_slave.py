@@ -77,7 +77,7 @@ class Master:
             self.running.add(slave)
 
         # Caller giving a non-ready slave a job is bad! 
-        else
+        else:
             raise exceptions.SlaveNotReady("Slave {} is busy!")
 
             
