@@ -4,7 +4,9 @@ from enum import IntEnum
 # Define MPI message tags
 Tags = IntEnum('Tags', 'READY START DONE EXIT')
 
-class Master(object):
+__all__ = ['Master', 'Slave']
+
+class Master:
     """
     The main process creates one or more of this class that handle groups of
     slave processes
@@ -109,7 +111,7 @@ class Master(object):
             self.comm.recv(source=s, tag=Tags.EXIT)
     
     
-class Slave(object):
+class Slave:
     """
     A slave process extend this class, create an instance and invoke the run
     process
