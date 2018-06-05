@@ -1,6 +1,7 @@
 from mpi4py import MPI
 from enum import IntEnum
 from mpi_master_slave import exceptions
+from abc import ABC, abstractmethod
 
 # Define MPI message tags
 Tags = IntEnum('Tags', 'READY START DONE EXIT')
@@ -117,7 +118,7 @@ class Master:
             self.comm.recv(source=s, tag=Tags.EXIT)
     
     
-class Slave:
+class Slave(ABC):
     """
     A slave process extend this class, create an instance and invoke the run
     process
@@ -145,8 +146,9 @@ class Slave:
         
         self.comm.send(None, dest=0, tag=Tags.EXIT)
         
+    @abstractmethod
     def do_work(self, data):
         """
         Extend this class and override this method to do actual work
         """
-        return None
+        pass
