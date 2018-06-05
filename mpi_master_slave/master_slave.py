@@ -1,5 +1,6 @@
 from mpi4py import MPI
 from enum import IntEnum
+from mpi_master_slave import exceptions
 
 # Define MPI message tags
 Tags = IntEnum('Tags', 'READY START DONE EXIT')
@@ -69,11 +70,16 @@ class Master:
 
     def run(self, slave, data):
         
-        # run the job (is ready) as remove it from ready set
+        # run the job (is ready) and remove it from ready set
         if slave in self.get_ready_slaves():
             self.comm.send(obj=data, dest=slave, tag=Tags.START)
             self.ready.remove(slave)
             self.running.add(slave)
+
+        # Caller giving a non-ready slave a job is bad! 
+        else
+            raise exceptions.SlaveNotReady("Slave {} is busy!")
+
             
     def get_completed_slaves(self):
         
