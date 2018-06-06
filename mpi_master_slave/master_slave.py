@@ -1,5 +1,7 @@
 from mpi4py import MPI
 from enum import IntEnum
+from mpi_master_slave import exceptions
+from abc import ABC, abstractmethod
 
 # Define MPI message tags
 Tags = IntEnum('Tags', 'READY START DONE EXIT')
@@ -69,11 +71,16 @@ class Master:
 
     def run(self, slave, data):
         
-        # run the job (is ready) as remove it from ready set
+        # run the job (is ready) and remove it from ready set
         if slave in self.get_ready_slaves():
             self.comm.send(obj=data, dest=slave, tag=Tags.START)
             self.ready.remove(slave)
             self.running.add(slave)
+
+        # Caller giving a non-ready slave a job is bad! 
+        else:
+            raise exceptions.SlaveNotReady("Slave {} is busy!")
+
             
     def get_completed_slaves(self):
         
@@ -111,7 +118,11 @@ class Master:
             self.comm.recv(source=s, tag=Tags.EXIT)
     
     
+<<<<<<< HEAD:mpi_master_slave/master_slave.py
 class Slave:
+=======
+class Slave(ABC):
+>>>>>>> a311bb38dc53aca2d485c4df4bc0f3de9b93531a:mpi_master_slave/master_slave.py
     """
     A slave process extend this class, create an instance and invoke the run
     process
@@ -139,8 +150,9 @@ class Slave:
         
         self.comm.send(None, dest=0, tag=Tags.EXIT)
         
+    @abstractmethod
     def do_work(self, data):
         """
         Extend this class and override this method to do actual work
         """
-        return None
+        pass
