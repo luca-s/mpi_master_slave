@@ -118,11 +118,7 @@ class Master:
             self.comm.recv(source=s, tag=Tags.EXIT)
     
     
-<<<<<<< HEAD:mpi_master_slave/master_slave.py
-class Slave:
-=======
 class Slave(ABC):
->>>>>>> a311bb38dc53aca2d485c4df4bc0f3de9b93531a:mpi_master_slave/master_slave.py
     """
     A slave process extend this class, create an instance and invoke the run
     process
